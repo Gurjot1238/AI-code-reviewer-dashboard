@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sign up · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="auth grain">
+    <section class="auth-art">
+      <canvas class="band" id="band" aria-hidden="true"></canvas>
+      <a class="logo" href="/"><svg viewBox="0 0 20 20"><path d="M10 1v18M1 10h18M3.6 3.6l12.8 12.8M16.4 3.6L3.6 16.4" stroke="currentColor" stroke-width="2"/></svg> ReviewBot</a>
+      <div>
+        <h1>Read before<br>you merge</h1>
+        <p>Every review is saved to your account: snippets, repo scans, scores and PDF reports.</p>
+      </div>
+    </section>
+    <section class="auth-form-wrap">
+      <form class="auth-form" id="authForm" novalidate>
+        <h2>Create account</h2>
+        <p class="sub">Free. Takes 20 seconds.</p>
+        <label class="field"><span class="label">Name</span><input class="input" type="text" name="name" autocomplete="name" required placeholder="Your name"></label>
+        <label class="field"><span class="label">Email</span><input class="input" type="email" name="email" autocomplete="email" required placeholder="you@college.edu"></label>
+        <label class="field"><span class="label">Password</span><input class="input" type="password" name="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters"></label>
+        <div class="form-error" id="formError" role="alert"></div>
+        <button class="btn btn-cream" type="submit" id="submitBtn">Create account</button>
+        <p class="auth-switch">Already have an account? <a href="/login.html">Log in</a></p>
+      </form>
+    </section>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/band.js"></script>
+  <script>
+    starBand(document.getElementById('band'));
+    const params = new URLSearchParams(location.search);
+    if (Auth.token) location.replace('/dashboard.html');
+    if (params.get('expired')) document.getElementById('formError').textContent = 'Your session expired. Log in again.';
+
+    document.getElementById('authForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const errBox = document.getElementById('formError');
+      const data = Object.fromEntries(new FormData(e.target));
+      errBox.textContent = '';
+      btn.disabled = true;
+      const label = btn.textContent;
+      btn.innerHTML = '<span class="spinner"></span>';
+      try {
+        const res = await api('/auth/signup', { method: 'POST', body: data });
+        Auth.save(res.token, res.user);
+        const next = params.get('next');
+        location.href = next && next.startsWith('/') ? next : '/dashboard.html';
+      } catch (err) {
+        errBox.textContent = err.message;
+        btn.disabled = false;
+        btn.textContent = label;
+      }
+    });
+  </script>
+</body>
+</html>

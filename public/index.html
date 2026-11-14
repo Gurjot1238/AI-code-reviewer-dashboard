@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>ReviewBot — AI Code Review</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="landing grain">
+    <header class="l-nav">
+      <a class="logo" href="/"><svg viewBox="0 0 20 20"><path d="M10 1v18M1 10h18M3.6 3.6l12.8 12.8M16.4 3.6L3.6 16.4" stroke="currentColor" stroke-width="2"/></svg> ReviewBot</a>
+      <nav class="l-nav-links">
+        <a href="#features">Features</a>
+        <a href="/login.html" id="navLogin">Log in</a>
+        <a class="btn btn-cream btn-sm" href="/signup.html" id="navCta">Get started</a>
+      </nav>
+    </header>
+
+    <section class="l-hero">
+      <canvas class="band" id="band" aria-hidden="true"></canvas>
+      <div class="l-glow" aria-hidden="true"></div>
+      <pre class="l-ghost" aria-hidden="true">function review(pr) {
+  const issues = scan(pr.diff);
+  return comment(issues);
+}</pre>
+      <p class="l-intro">An AI reviewer that reads your code and whole GitHub repositories, flags bugs and security holes line by line, and writes the fix.</p>
+      <ul class="l-meta">
+        <li>Gemini AI review</li>
+        <li>GitHub repo scan</li>
+        <li>Quality score</li>
+        <li>PDF reports</li>
+      </ul>
+      <h1 class="l-title">Automated<br>Code Review</h1>
+      <div class="l-side">
+        <div class="meta"><span class="dot" id="hDot"></span><span id="hText">Checking server</span></div>
+        <a class="btn btn-cream" href="/signup.html" id="heroCta">Create free account</a>
+        <a class="btn btn-line" href="/login.html" id="heroLogin">Log in</a>
+      </div>
+    </section>
+
+    <section class="l-features" id="features">
+      <div class="l-feature"><span class="label">01</span><h3>Review code</h3><p>Paste a snippet. Gemini reports errors, warnings and suggestions on exact lines, each with a fix.</p></div>
+      <div class="l-feature"><span class="label">02</span><h3>Scan a repo</h3><p>Paste a GitHub link. Every source file is pulled, reviewed and scored, with a report per file.</p></div>
+      <div class="l-feature"><span class="label">03</span><h3>Track quality</h3><p>Charts show your score over time, the issues you repeat most, and your languages.</p></div>
+      <div class="l-feature"><span class="label">04</span><h3>Export reports</h3><p>Download any review or repo scan as a PDF to attach to a pull request or a submission.</p></div>
+    </section>
+
+    <footer class="l-foot"><span>ReviewBot</span><span>Node.js · Express · MongoDB · Gemini</span></footer>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/band.js"></script>
+  <script>
+    starBand(document.getElementById('band'));
+    if (Auth.token) {
+      ['navCta', 'heroCta'].forEach(id => { const a = document.getElementById(id); a.href = '/dashboard.html'; a.textContent = 'Open dashboard'; });
+      document.getElementById('navLogin').style.display = 'none';
+      document.getElementById('heroLogin').style.display = 'none';
+    }
+    fetch('/api/health').then(r => r.json()).then(h => {
+      const ok = h.database === 'connected';
+      document.getElementById('hDot').className = 'dot ' + (ok ? 'ok' : 'warn');
+      document.getElementById('hText').textContent = ok ? (h.engine === 'gemini' ? 'Online · Gemini AI' : 'Online · rule engine') : 'Database offline';
+    }).catch(() => { document.getElementById('hText').textContent = 'Server offline'; });
+  </script>
+</body>
+</html>

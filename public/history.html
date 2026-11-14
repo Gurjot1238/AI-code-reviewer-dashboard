@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>History · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="history">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Insights / History</div>
+          <h1 id="pageTitle">History</h1>
+        </div>
+        <div class="topbar-actions" id="topActions"><a class="btn btn-cream" href="/review.html">New review</a></div>
+      </header>
+      <div class="content">
+        <section class="panel">
+          <div class="tabs"><button class="tab active" data-tab="reviews">Code reviews</button><button class="tab" data-tab="scans">Repo scans</button></div>
+          <div id="reviewsTab">
+            <div class="toolbar">
+              <input class="input" id="searchInput" placeholder="Search title or code" type="search">
+              <select class="select" id="statusFilter" aria-label="Filter by result">
+                <option value="">All results</option><option value="error">Errors</option><option value="warning">Warnings</option>
+                <option value="suggestion">Suggestions</option><option value="pass">Passed</option>
+              </select>
+              <span class="label" id="totalLabel" style="margin-left:auto"></span>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Result</th><th>Title</th><th>Language</th><th class="num">Score</th><th>Engine</th><th>When</th><th></th></tr></thead>
+              <tbody id="reviewRows"></tbody>
+            </table></div>
+            <div class="pager"><button class="btn btn-line btn-sm" id="prevBtn">Previous</button><span id="pageLabel"></span><button class="btn btn-line btn-sm" id="nextBtn">Next</button></div>
+          </div>
+          <div id="scansTab" hidden>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Repository</th><th>Branch</th><th class="num">Score</th><th class="num">Errors</th><th class="num">Warnings</th><th>Status</th><th>When</th></tr></thead>
+              <tbody id="scanRows"></tbody>
+            </table></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/history.js"></script>
+</body>
+</html>

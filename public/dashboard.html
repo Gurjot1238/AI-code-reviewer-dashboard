@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="dashboard">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Workspace</div>
+          <h1 id="pageTitle"><span id="hello">Dashboard</span></h1>
+        </div>
+        <div class="topbar-actions" id="topActions"><a class="btn btn-line" href="/scan.html">Scan a repo</a><a class="btn btn-cream" href="/review.html">New review</a></div>
+      </header>
+      <div class="content">
+        <div class="banner" id="aiBanner" hidden>
+          <div><div class="label">AI reviews are off</div>Reviews use the built-in rule engine. Add a free GEMINI_API_KEY to .env and restart the server to turn on Gemini.</div>
+          <a class="btn btn-line btn-sm" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get a key</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="value" id="sReviews">0</span><span class="label">Code reviews</span></div>
+          <div class="stat"><span class="value"><span id="sScore">0</span><small>/100</small></span><span class="label">Average score</span></div>
+          <div class="stat"><span class="value" id="sIssues">0</span><span class="label">Issues found</span></div>
+          <div class="stat"><span class="value" id="sScans">0</span><span class="label">Repos scanned</span></div>
+          <div class="stat"><span class="value" id="sFiles">0</span><span class="label">Files scanned</span></div>
+        </div>
+        <div class="quick">
+          <a href="/review.html"><h3>Review code <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M8 7h9v9"/></svg></h3><p>Paste a snippet and get line-by-line issues with fixes.</p></a>
+          <a href="/scan.html"><h3>Scan a repo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M8 7h9v9"/></svg></h3><p>Review every source file of a public GitHub repository.</p></a>
+          <a href="/analytics.html"><h3>Analytics <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17L17 7M8 7h9v9"/></svg></h3><p>See your score trend and the mistakes you repeat most.</p></a>
+        </div>
+        <div class="grid-2">
+          <section class="panel">
+            <div class="panel-head"><h2>Recent reviews</h2><a class="btn btn-line btn-sm" href="/history.html">View all</a></div>
+            <div class="table-wrap"><table><tbody id="recentReviews"><tr><td><div class="skeleton"></div></td></tr></tbody></table></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Recent scans</h2><a class="btn btn-line btn-sm" href="/history.html?tab=scans">View all</a></div>
+            <div class="table-wrap"><table><tbody id="recentScans"><tr><td><div class="skeleton"></div></td></tr></tbody></table></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

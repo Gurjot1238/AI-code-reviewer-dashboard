@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Review code · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="review">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Workspace / Review</div>
+          <h1 id="pageTitle">Review code</h1>
+        </div>
+        <div class="topbar-actions" id="topActions"><span class="chip" id="engineChip">Engine</span></div>
+      </header>
+      <div class="content">
+        <div class="grid-3-1">
+          <section class="panel editor-panel">
+            <form id="reviewForm">
+              <div class="editor-tools">
+                <input class="input" id="titleInput" name="title" placeholder="Title (optional), e.g. Login controller" maxlength="80">
+                <select class="select" id="langSelect" aria-label="Language">
+                  <option value="auto">Auto-detect</option>
+                  <option value="javascript">JavaScript</option><option value="typescript">TypeScript</option>
+                  <option value="python">Python</option><option value="java">Java</option>
+                  <option value="cpp">C++</option><option value="c">C</option><option value="go">Go</option><option value="php">PHP</option>
+                </select>
+                <label class="btn btn-line upload-btn" for="fileInput" title="Upload a code file (max 200 KB)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/></svg>
+                  Upload file
+                </label>
+                <input type="file" id="fileInput" hidden accept=".js,.jsx,.mjs,.cjs,.ts,.tsx,.py,.java,.c,.h,.cpp,.cc,.hpp,.go,.php,.rb,.cs,.kt,.swift,.rs">
+              </div>
+              <div class="editor" id="editorBox">
+                <div class="drop-hint" aria-hidden="true"><div><strong>Drop your code file</strong><span>It is uploaded and reviewed right away · max 200 KB</span></div></div>
+                <div class="gutter" id="gutter"></div>
+                <div class="editor-body">
+                  <div class="marks" id="marks"></div>
+                  <textarea class="code-input" id="codeInput" spellcheck="false" aria-label="Code" placeholder="// Paste your code here"></textarea>
+                </div>
+              </div>
+              <div class="editor-foot">
+                <span><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to review · drop a file to upload · <span id="editorInfo">0 lines</span> · <button type="button" class="filter" id="sampleBtn">Load sample</button></span>
+                <button class="btn btn-cream" id="submitBtn" type="submit">Review code</button>
+              </div>
+            </form>
+          </section>
+
+          <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+            <section class="panel">
+              <div class="panel-head"><h2>Pipeline</h2><span class="label" id="runState">Idle</span></div>
+              <ol class="pipeline" id="pipeline">
+                <li class="step"><span class="no">01</span><span class="title" id="recvStepTitle">Code received</span><span class="time"></span></li>
+                <li class="step"><span class="no">02</span><span class="title">Language detected</span><span class="time"></span></li>
+                <li class="step"><span class="no">03</span><span class="title" id="aiStepTitle">AI analysis</span><span class="time"></span></li>
+                <li class="step"><span class="no">04</span><span class="title">Score calculated</span><span class="time"></span></li>
+                <li class="step"><span class="no">05</span><span class="title">Saved to MongoDB</span><span class="time"></span></li>
+              </ol>
+            </section>
+            <section class="panel" id="resultPanel">
+              <div class="empty"><strong>No review yet</strong>Paste code and press Review code. Issues appear here, and clicking one highlights its line.</div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/issues.js"></script>
+  <script src="/js/review.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Analytics · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="analytics">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Insights / Analytics</div>
+          <h1 id="pageTitle">Analytics</h1>
+        </div>
+        <div class="topbar-actions" id="topActions"><select class="select" id="rangeSelect" aria-label="Time range" style="width:150px"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option></select></div>
+      </header>
+      <div class="content">
+        <div class="stats">
+          <div class="stat"><span class="value" id="aReviews">0</span><span class="label">Reviews</span></div>
+          <div class="stat"><span class="value"><span id="aScore">0</span><small>/100</small></span><span class="label">Average score</span></div>
+          <div class="stat"><span class="value" id="aIssues">0</span><span class="label">Issues found</span></div>
+          <div class="stat"><span class="value" id="aAi">0</span><span class="label">AI reviews</span></div>
+          <div class="stat"><span class="value"><span id="aRepo">0</span><small>/100</small></span><span class="label">Avg repo score</span></div>
+        </div>
+        <section class="panel">
+          <div class="panel-head"><h2>Activity and quality</h2><span class="label">Reviews per day and average score</span></div>
+          <div class="chart-box tall"><canvas id="timelineChart"></canvas></div>
+        </section>
+        <div class="grid-2">
+          <section class="panel">
+            <div class="panel-head"><h2>Results</h2><span class="label">All reviews by outcome</span></div>
+            <div class="chart-box"><canvas id="statusChart"></canvas></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Issue types</h2><span class="label">What goes wrong most</span></div>
+            <div class="bars" id="categoryBars"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Languages</h2><span class="label">Reviews and average score</span></div>
+            <div class="bars" id="languageBars"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>Repeat mistakes</h2><span class="label">Most frequent issues</span></div>
+            <div id="topIssues"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="/js/analytics.js"></script>
+</body>
+</html>

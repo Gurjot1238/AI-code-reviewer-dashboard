@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Repo scan · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="scan">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Workspace / Repo scan</div>
+          <h1 id="pageTitle">Repo scan</h1>
+        </div>
+        <div class="topbar-actions" id="topActions"></div>
+      </header>
+      <div class="content">
+        <section class="panel" id="startPanel">
+          <div class="panel-head"><h2>Scan a GitHub repository</h2><span class="label">Public repos · up to 25 code files</span></div>
+          <form class="scan-form" id="scanForm">
+            <input class="input" id="repoInput" placeholder="https://github.com/owner/repository" autocomplete="off" required>
+            <button class="btn btn-cream" id="scanBtn" type="submit">Scan repository</button>
+          </form>
+          <div class="examples">Try: <button type="button" data-repo="https://github.com/expressjs/cors">expressjs/cors</button>
+            <button type="button" data-repo="https://github.com/jonschlinkert/is-odd">jonschlinkert/is-odd</button>
+            <button type="button" data-repo="https://github.com/sindresorhus/slugify">sindresorhus/slugify</button></div>
+        </section>
+
+        <section id="scanView" hidden></section>
+
+        <section class="panel" id="recentPanel">
+          <div class="panel-head"><h2>Previous scans</h2></div>
+          <div class="table-wrap"><table><tbody id="scanList"><tr><td><div class="skeleton"></div></td></tr></tbody></table></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/issues.js"></script>
+  <script src="/js/scan.js"></script>
+</body>
+</html>

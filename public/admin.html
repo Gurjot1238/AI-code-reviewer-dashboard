@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin panel · ReviewBot</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="admin">
+  <div class="app grain">
+    <aside class="sidebar"></aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb">Team / Admin</div>
+          <h1 id="pageTitle">Admin panel</h1>
+        </div>
+        <div class="topbar-actions" id="topActions"><span id="myRole"></span></div>
+      </header>
+      <div class="content">
+        <div class="stats">
+          <div class="stat"><span class="value" id="aUsers">0</span><span class="label">Users</span></div>
+          <div class="stat"><span class="value" id="aReviews">0</span><span class="label">Reviews (all)</span></div>
+          <div class="stat"><span class="value" id="aScans">0</span><span class="label">Repo scans (all)</span></div>
+          <div class="stat"><span class="value"><span id="aScore">0</span><small>/100</small></span><span class="label">Team avg score</span></div>
+          <div class="stat"><span class="value"><span id="aAdmins">0</span><small> / <span id="aReviewers">0</span></small></span><span class="label">Admins / reviewers</span></div>
+        </div>
+
+        <section class="panel">
+          <div class="tabs" id="tabs">
+            <button class="tab" data-tab="users" data-admin>Users &amp; roles</button>
+            <button class="tab" data-tab="reviews">All reviews</button>
+            <button class="tab" data-tab="scans">All scans</button>
+          </div>
+
+          <div id="usersTab" hidden>
+            <div class="toolbar">
+              <input class="input" id="userSearch" placeholder="Search name or email" type="search">
+              <span class="label" id="userTotal" style="margin-left:auto"></span>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th class="num">Reviews</th><th class="num">Scans</th><th>Joined</th><th></th></tr></thead>
+              <tbody id="userRows"></tbody>
+            </table></div>
+          </div>
+
+          <div id="reviewsTab" hidden>
+            <div class="toolbar">
+              <input class="input" id="reviewSearch" placeholder="Search title" type="search">
+              <select class="select" id="reviewStatus" aria-label="Filter by result">
+                <option value="">All results</option><option value="error">Errors</option><option value="warning">Warnings</option>
+                <option value="suggestion">Suggestions</option><option value="pass">Passed</option>
+              </select>
+              <span class="label" id="reviewTotal" style="margin-left:auto"></span>
+            </div>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Result</th><th>Title</th><th>By</th><th>Source</th><th class="num">Score</th><th>When</th></tr></thead>
+              <tbody id="reviewRows"></tbody>
+            </table></div>
+            <div class="pager"><button class="btn btn-line btn-sm" id="prevBtn">Previous</button><span id="pageLabel"></span><button class="btn btn-line btn-sm" id="nextBtn">Next</button></div>
+          </div>
+
+          <div id="scansTab" hidden>
+            <div class="table-wrap"><table>
+              <thead><tr><th>Repository</th><th>By</th><th class="num">Score</th><th class="num">Errors</th><th>Status</th><th>When</th></tr></thead>
+              <tbody id="scanRows"></tbody>
+            </table></div>
+          </div>
+        </section>
+
+        <div class="role-legend">
+          <div><span class="role-chip user">User</span><br>Reviews code, scans repos, sees only their own work.</div>
+          <div><span class="role-chip reviewer">Reviewer</span><br>Everything a user can do, plus read everyone's reviews and scans.</div>
+          <div><span class="role-chip admin">Admin</span><br>Everything a reviewer can do, plus change roles and remove users.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/js/api.js"></script>
+  <script src="/js/layout.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

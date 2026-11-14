@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub AI Reviewer - Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <div>
+        <div class="brand">
+          <div class="brand-icon">🤖</div>
+          <span>ReviewBot AI</span>
+        </div>
+
+        <div class="side-title">Navigation</div>
+
+        <nav class="menu">
+          <a class="active" href="#dashboard">🏠 Dashboard</a>
+          
+        </nav>
+      </div>
+
+      <div class="status-box">
+        <div class="status-row">
+          <div class="status-avatar">OK</div>
+          <div>
+            <div style="font-weight:700;" id="dbStatusTitle">Webhook Active</div>
+            <div style="font-size:13px;color:#c7d3ea;" id="dbStatusText">Simulated Engine</div>
+          </div>
+        </div>
+
+        <div class="progress-label">
+          <span>Bot Readiness</span>
+          <span>100%</span>
+        </div>
+        <div class="progress">
+          <span></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" id="dashboard">
+
+      <div class="topbar">
+        <div class="brand" style="font-size:18px; margin:0; color:var(--primary-dark);">
+          <div class="brand-icon" style="width:36px; height:36px; font-size:14px;">🤖</div>
+          <span>ReviewBot AI</span>
+        </div>
+
+
+        <a class="btn btn-outline" href="#dashboard">Reset Page</a>
+      </div>
+
+      <section class="hero">
+        <div>
+          <h1>Automated Code Review ⚡</h1>
+          <p>Paste code below to simulate a GitHub Pull Request and trigger the review agent.</p>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#submit">Test Code</a>
+        </div>
+      </section>
+
+      <div class="cards">
+        <section class="card" id="submit" style="margin-bottom:0;">
+          <div class="label">1. Submit Code Snippet</div>
+          <h3>Simulate Pull Request</h3>
+          <form id="prForm">
+            <textarea id="codeInput" placeholder="Paste your code here...">var x = 10;
+console.log(x);</textarea>
+            <button class="btn btn-solid" id="submitBtn" type="submit">Submit Pull Request</button>
+          </form>
+        </section>
+
+        <section class="card" id="pipeline" style="margin-bottom:0;">
+          <div class="label">2. Automated Pipeline</div>
+          <h3>Execution Steps</h3>
+          <div class="pipeline">
+            <div class="step">1. PR Sent</div>
+            <div class="step">2. Webhook</div>
+            <div class="step">3. AI Scan</div>
+            <div class="step">4. Build Feedback</div>
+            <div class="step">5. Posted</div>
+          </div>
+          <div class="pill-row">
+            <div class="pill green">1<br>Pass</div>
+            <div class="pill yellow">1<br>Warning</div>
+            <div class="pill dark">0<br>Errors</div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" id="feedback">
+        <div class="label">3. GitHub PR Feedback</div>
+        <h3>AI Reviewer Comment</h3>
+        <div class="comment-box" id="commentContainer" style="display: block;">
+          <strong>🤖 AI Reviewer commented:</strong>
+          <p id="aiCommentText" style="margin-top: 6px;">💡 <strong>Ready:</strong> Submit code above to run the AI review pipeline.</p>
+        </div>
+      </section>
+
+      <section class="card" id="logs">
+        <div class="label" id="storageLabel">Browser Storage</div>
+        <h3>Review Logs</h3>
+        <button class="btn btn-danger" id="clearLogsBtn" type="button">Clear Logs</button>
+        <div id="logsContainer"></div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

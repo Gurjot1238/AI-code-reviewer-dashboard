@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReviewBot — Automated Code Review</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ========== NAV ========== -->
+    <header class="nav">
+      <a class="logo" href="#home" data-route="home">
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M10 1v18M1 10h18M3.6 3.6l12.8 12.8M16.4 3.6L3.6 16.4" stroke="currentColor" stroke-width="2"/></svg>
+        ReviewBot
+      </a>
+      <nav class="nav-links">
+        <a href="#home" data-route="home">Home</a>
+        <a href="#review" data-route="review">Review</a>
+        <a href="#archive" data-route="archive">Archive <span class="nav-count" id="navCount">0</span></a>
+      </nav>
+      <div class="nav-right">
+        <span class="status-pill" id="storageLabel">Checking</span>
+      </div>
+    </header>
+
+    <!-- ========== VIEWS ========== -->
+    <main class="views">
+
+      <!-- HOME -->
+      <section class="view view-home" id="view-home" data-view="home">
+        <canvas class="band" id="band" aria-hidden="true"></canvas>
+        <pre class="hero-ghost" id="heroGhost" aria-hidden="true"></pre>
+        <div class="hero-glow" aria-hidden="true"></div>
+
+        <p class="hero-intro">A pull request reviewer that reads every line before a human does, and leaves a comment on what it finds.</p>
+
+        <ul class="hero-meta">
+          <li>Syntax check</li>
+          <li>Code quality</li>
+          <li>MongoDB archive</li>
+          <li>~3 sec per review</li>
+        </ul>
+
+        <h1 class="hero-title">Automated<br>Code Review</h1>
+
+        <div class="hero-side">
+          <div class="hero-db" id="dbCard">
+            <span class="db-dot" id="dbDot"></span>
+            <span id="dbStatusTitle">Checking database</span>
+          </div>
+          <div class="hero-db-sub" id="dbStatusText">Connecting to server</div>
+          <a class="btn btn-cream" href="#review" data-route="review">Start a review</a>
+          <a class="btn btn-line" href="#archive" data-route="archive">Open archive</a>
+        </div>
+      </section>
+
+      <!-- REVIEW -->
+      <section class="view view-review" id="view-review" data-view="review" hidden>
+        <div class="review-main">
+          <div class="view-head">
+            <h2>Pull request</h2>
+            <p class="view-note">Paste a JavaScript or Java snippet. The line that breaks a rule is marked in the margin.</p>
+          </div>
+
+          <form id="prForm" class="editor-form">
+            <div class="editor-bar">
+              <span>snippet.js</span>
+              <span id="editorInfo">2 lines</span>
+            </div>
+            <div class="editor">
+              <div class="gutter" id="gutter"></div>
+              <div class="editor-body">
+                <div class="line-highlight" id="lineHighlight"></div>
+                <textarea id="codeInput" spellcheck="false" aria-label="Code snippet" placeholder="// Paste your code here">var x = 10;
+console.log(x);</textarea>
+              </div>
+            </div>
+            <div class="editor-actions">
+              <span class="small">Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to submit</span>
+              <button class="btn btn-cream" id="submitBtn" type="submit">Submit pull request</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="review-side">
+          <div class="panel" id="pipeline">
+            <div class="panel-head">
+              <h3>Pipeline</h3>
+              <span class="run-state" id="runState">Idle</span>
+            </div>
+            <ol class="pipeline">
+              <li class="step"><span class="step-no">01</span><span class="step-title">PR sent</span><span class="step-desc">Snippet received</span></li>
+              <li class="step"><span class="step-no">02</span><span class="step-title">Webhook</span><span class="step-desc">Review event dispatched</span></li>
+              <li class="step"><span class="step-no">03</span><span class="step-title">Scan</span><span class="step-desc">Syntax and quality rules</span></li>
+              <li class="step"><span class="step-no">04</span><span class="step-title">Feedback</span><span class="step-desc">Comment written</span></li>
+              <li class="step"><span class="step-no">05</span><span class="step-title">Posted</span><span class="step-desc">Saved to the archive</span></li>
+            </ol>
+          </div>
+
+          <div class="panel verdict" id="commentContainer">
+            <div class="panel-head">
+              <h3>Verdict</h3>
+              <span class="badge badge-idle" id="commentBadge">Waiting</span>
+            </div>
+            <p class="verdict-text" id="aiCommentText">Submit a snippet and the reviewer's comment appears here.</p>
+            <div class="verdict-meta">
+              <span class="verdict-by">reviewbot <em>bot</em></span>
+              <span id="commentTime">No pull request yet</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ARCHIVE -->
+      <section class="view view-archive" id="view-archive" data-view="archive" hidden>
+        <div class="view-head view-head-row">
+          <h2>Archive</h2>
+          <div class="archive-tools">
+            <span class="archive-source" id="historySource">Stored in browser</span>
+            <button class="btn btn-line btn-sm" id="clearLogsBtn" type="button">Clear archive</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><span class="stat-value" id="statTotal">0</span><span class="stat-label">Reviews</span></div>
+          <div class="stat"><span class="stat-value" id="statError">0</span><span class="stat-label"><i class="mark mark-error"></i>Errors</span><span class="stat-bar"><span id="barError"></span></span></div>
+          <div class="stat"><span class="stat-value" id="statWarning">0</span><span class="stat-label"><i class="mark mark-warning"></i>Warnings</span><span class="stat-bar"><span id="barWarning"></span></span></div>
+          <div class="stat"><span class="stat-value" id="statSuggestion">0</span><span class="stat-label"><i class="mark mark-suggestion"></i>Suggestions</span><span class="stat-bar"><span id="barSuggestion"></span></span></div>
+          <div class="stat"><span class="stat-value" id="statPass">0</span><span class="stat-label"><i class="mark mark-pass"></i>Passed</span><span class="stat-bar"><span id="barPass"></span></span></div>
+        </div>
+
+        <div class="history-head">
+          <span>Result</span><span>Code</span><span>Comment</span><span>When</span>
+        </div>
+        <div id="logsContainer" class="history"></div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <span>Storage: <b id="dbStorage">—</b></span>
+      <span>Engine: rule-based v1</span>
+    </footer>
+
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
