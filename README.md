@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ReviewBot — AI Code Reviewer
 
 A full-stack web app that reviews code with AI. Paste a snippet or a whole GitHub repository and get
@@ -100,3 +101,20 @@ Set `ADMIN_EMAIL=you@example.com` in `.env`; that account becomes admin when it 
 Admins can promote others from the **Admin panel** (`/admin.html`). Admin API: `GET /api/admin/stats`,
 `GET /api/admin/reviews`, `GET /api/admin/scans`, `GET /api/admin/users`, `PATCH /api/admin/users/:id/role`,
 `DELETE /api/admin/users/:id`.
+=======
+# Automated Code Reviewer (GitHub AI Webhook Simulation)
+
+A web dashboard simulating an automated GitHub Pull Request (PR) code review pipeline using JavaScript, HTML5, and CSS3.
+
+## Features
+- **PR Simulation Pipeline:** Visual 5-step execution sequence.
+- **Rule-Based Static Analysis Engine:** 
+  - Detects **Hard Errors** (mismatched `{ }`, `( )`, missing `;`).
+  - Detects **Code Quality Warnings** (`var` usage, unhandled `console.log` / `System.out.println`).
+- **Browser LocalStorage:** Persists past review history across browser reloads.
+
+## File Structure
+- `index.html` - Dashboard interface
+- `style.css` - UI layout and pipeline styling
+- `script.js` - Execution pipeline, analysis engine, and localStorage logic
+>>>>>>> a899c8373636dec63abd8c08d9dbb4dbb79d0fea
